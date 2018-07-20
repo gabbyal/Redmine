@@ -1,0 +1,44 @@
+apt-get update
+apt-get upgrade
+apt-get install mysql-server libmysqlclient-dev git-core subversion imagemagick libmagickwand-dev libcurl4-openssl-dev 
+source /usr/local/rvm/scripts/rvm
+vi ~/.bashrc 
+gem install passenger --no-ri --no-rdoc
+passenger-install-nginx-module
+vi /opt/nginx/conf/nginx.conf
+systemctl stop nginx
+systemctl start nginx
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt
+mkdir /var/www
+cd /var/www/
+ls
+cd redmine/
+cp config/database.yml.example config/database.yml
+vi config/database.yml
+bundle install
+mkdir public/plugin_assets
+mysql -u root -p
+bundle exec rake db:migrate
+vi config/database.yml
+bundle exec rake db:migrate
+scp mgv4ce@linux.physik.uzh.ch:~/*.zip .
+rm bootstrapthemes.zip 
+apt-get istall unzip
+apt-get install unzip
+mv *.zip plugins/
+cd plugins/
+unzip easy_gantt_pro.zip 
+ls
+rm -rf __MACOSX/
+unzip redmine_agile-1_4_6-light.zip 
+ls
+cd ..
+bundle install
+bundle exec rake redmine:plugins
+bundle exec rake redmine:load_default_data RAILS_ENV=production
+bundle exec rake generate_secret_token 
+systemctl restart nginx
+vi /opt/nginx/conf/nginx.conf
+systemctl restart nginx
+history 
+history | cat > history.txt
